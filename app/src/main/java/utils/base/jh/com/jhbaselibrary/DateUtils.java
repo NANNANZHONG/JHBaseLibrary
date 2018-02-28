@@ -11,6 +11,19 @@ import java.util.Date;
 public class DateUtils {
 
 
+    private static SimpleDateFormat format = new SimpleDateFormat("mm:ss");
+
+    /**
+     * 格式化时间 SimpleDateFormat类很实用的类
+     *
+     * @param time
+     * @return s
+     * */
+    public static String formatTime(long time) {
+        return format.format(time);
+    }
+
+
     /**
      * 计算当天的时间天数差
      *
