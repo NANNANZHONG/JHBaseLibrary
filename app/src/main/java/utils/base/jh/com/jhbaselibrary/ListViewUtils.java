@@ -13,6 +13,7 @@ public class ListViewUtils {
 
     /**
      * ListView 在 ScrollView 下 只显示一行 问题解决办法
+     * 双ListView 显示不全问题解决方法
      * @param listView
      */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
