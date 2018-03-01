@@ -2,7 +2,7 @@ package utils.base.jh.com.jhbaselibrary;
 
 import android.util.Log;
 
-public class LogUtil {
+public class JHLogUtils {
 
     private static boolean printLog(){
        try{
