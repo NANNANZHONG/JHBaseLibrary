@@ -13,7 +13,243 @@ import java.util.List;
 
 public class DateUtils {
 
+    /**
+     * 返回格式：yyyy-MM-dd HH:mm:ss long ->string
+     *
+     * @param time
+     * @return
+     */
+    public static String longToYYYYMMDDHHMMSS(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d1 = new Date(time);
+        return format.format(d1);
+    }
 
+    /**
+     * 返回格式：yyyy-MM-dd HH:mm:ss long ->string
+     *
+     * @param time
+     * @return
+     */
+    public static String longToYYYYMMDD(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date d1 = new Date(time);
+        return format.format(d1);
+    }
+
+    /**
+     * 转换时间  "yyyy-MM-dd HH:mm:ss"  ->   yyyy-MM-dd
+     *
+     * @param time
+     * @return
+     */
+    public static String yYYYMMDDHHMMSStoYYYYMMDD(String time) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(ymdhms);
+            Date date = format.parse(time);
+            format = new SimpleDateFormat(ymd);
+            return format.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    /**
+     * 转换时间  "yyyy-MM-dd HH:mm:ss"  ->   HH:mm:ss
+     *
+     * @param time
+     * @return
+     */
+    public static String removeHHMMSS(String time) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(ymdhms);
+            Date date = format.parse(time);
+            format = new SimpleDateFormat(hms);
+            return format.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    /**
+     * 获取今天的日期 "yyyy-MM-dd"
+     *
+     * @return
+     */
+    public static String getYYYYMMDD() {
+        return new SimpleDateFormat(ymd).format(new Date());
+    }
+
+    public static String unitFormat(int i) {
+        String retStr = null;
+        if (i >= 0 && i < 10)
+            retStr = "0" + Integer.toString(i);
+        else
+            retStr = "" + i;
+        return retStr;
+    }
+
+    /**
+     * 获取今天之前的6天
+     *
+     * @return
+     */
+    public static List<String> getSixDayToToday() {
+        long time = System.currentTimeMillis();
+        List<String> weeks = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM.dd");
+        weeks.add(0, format.format(new Date(time + 24 * 60 * 60 * 1000)));
+        for (long i = 0; i < 6; i++) {
+            Date data = new Date();
+            data.setTime(time - (i * 24 * 60 * 60 * 1000));
+            weeks.add(0, format.format(data));
+        }
+        return weeks;
+    }
+
+    /**
+     * 获取今天之前的30天
+     *
+     * @return
+     */
+    public static List<String> getThirtyDayToToday() {
+        long time = System.currentTimeMillis();
+        List<String> months = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM.dd");
+        long startTime = time + 24 * 60 * 60 * 1000;
+        for (long i = 0; i < 7; i++) {
+            long endTime = startTime - (i * 5 * 24 * 60 * 60 * 1000);
+            Date data = new Date(endTime);
+            months.add(0, format.format(data));
+        }
+        return months;
+    }
+
+    /**
+     * 获取今天之前一年的
+     *
+     * @return
+     */
+    public static List<String> getYearToToday() {
+        long time = System.currentTimeMillis();
+        List<String> years = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM.dd");
+        long startTime = time + 24 * 60 * 60 * 1000;
+        for (long i = 0; i < 7; i++) {
+            Date data = new Date();
+            data.setTime(startTime - (i * 61 * 24 * 60 * 60 * 1000));
+            years.add(0, format.format(data));
+        }
+        return years;
+    }
+
+    private static final String ymdhms = "yyyy-MM-dd HH:mm:ss";
+    private static final String ymd = "yyyy-MM-dd";
+    private static final String hms = "HH:mm:ss";
+
+
+
+    /**
+     * 获取图标中最小时间
+     *
+     * @return
+     * @throws ParseException
+     */
+    public static long getStartDayTime(int type) throws ParseException {
+        long time = 0L;
+        if (type == 1 || type == 5) {
+            time = 24 * 60 * 60 * 1000L;
+        } else if (type == 2) {
+            time = 6 * 24 * 60 * 60 * 1000L;
+        } else if (type == 3) {
+            time = 6 * 5 * 24 * 60 * 60 * 1000L;
+        } else if (type == 4) {
+            time = 6 * 61 * 24 * 60 * 60 * 1000L;
+        }
+        long fTime = System.currentTimeMillis() + 24 * 60 * 60 * 1000 - time;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String s = format.format(new Date(fTime));
+        Date date = format.parse(s);
+        return date.getTime();
+    }
+
+
+
+
+    public static long longDateToLongYYYYMMDD(long time) {
+
+        try {
+
+            String ts = longToYYYYMMDD(time); // 转成yyyy-MM-dd
+
+            return StringYYYYMMDDToLong(ts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return  time;
+    }
+
+
+    public static long StringYYYYMMDDToLong(String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dt = sdf.parse(date);
+            return dt.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0L;
+    }
+
+
+    /**
+     * yyyy-MM-dd HH:mm:ss 转 yyyy/MM/dd
+     *
+     * @param date
+     * @return
+     */
+    public static String yYYYMMDDHHMMSSToYYYYMMDD(String date) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss");
+            Date dt = format.parse(date);
+            long time = dt.getTime();
+
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy/MM/dd");
+            Date d1 = new Date(time);
+            return format2.format(d1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static List<String> getHourList() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                list.add("0" + i);
+            } else {
+                list.add(i + "");
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getMinList() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                list.add("0" + i);
+            } else {
+                list.add(i + "");
+            }
+        }
+        return list;
+    }
     private static SimpleDateFormat format = new SimpleDateFormat("mm:ss");
 
     /**
