@@ -1,5 +1,11 @@
 package utils.base.jh.com.jhbaselibrary;
 
+import android.content.Context;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +15,32 @@ import java.util.regex.Pattern;
  */
 
 public class StringUtils {
+
+    public static void lengthFilter(final int max_length,final Context context,
+                                    final EditText editText) {
+        final String err_msg = "超过长度";
+
+        InputFilter[] filters = new InputFilter[1];
+
+        filters[0] = new InputFilter.LengthFilter(max_length) {
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                int destLen = dest.length(); // 获取字符个数(一个中文算2个字符)
+
+                int sourceLen = source.length();
+
+                if (destLen + sourceLen > max_length) {
+                    Toast.makeText(context,err_msg,Toast.LENGTH_SHORT).show();
+                    return "";
+                }
+                return source;
+            }
+        };
+        editText.setFilters(filters);
+    }
+
 
     /**
      * 获取uuid
