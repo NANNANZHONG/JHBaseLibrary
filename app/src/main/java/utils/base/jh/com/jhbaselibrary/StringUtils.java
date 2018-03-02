@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +18,39 @@ import java.util.regex.Pattern;
  */
 
 public class StringUtils {
+
+    /**
+     * @return
+     */
+    public static List<String> getDateToDay() {
+        List<String> dayTimes = new ArrayList<>();
+        dayTimes.add("00:00");
+        dayTimes.add("04:00");
+        dayTimes.add("08:00");
+        dayTimes.add("12:00");
+        dayTimes.add("16:00");
+        dayTimes.add("20:00");
+        dayTimes.add("24:00");
+        return dayTimes;
+    }
+
+    /**
+     * 获取血糖一天的时间
+     *
+     * @return
+     */
+    public static List<String> getTimeToBloodSugar() {
+        List<String> dayTimes = new ArrayList<>();
+        dayTimes.add("凌晨");
+        dayTimes.add("早餐前");
+        dayTimes.add("早餐后");
+        dayTimes.add("午餐前");
+        dayTimes.add("午餐后");
+        dayTimes.add("晚餐前");
+        dayTimes.add("晚餐后");
+        dayTimes.add("睡前");
+        return dayTimes;
+    }
 
     /**
      * 蓝牛协议
