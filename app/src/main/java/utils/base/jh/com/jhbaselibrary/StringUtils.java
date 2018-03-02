@@ -6,6 +6,7 @@ import android.text.Spanned;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,29 @@ import java.util.regex.Pattern;
  */
 
 public class StringUtils {
+
+    /**
+     * 蓝牛协议
+     * @param context
+     * @return
+     */
+    public static String getHtmlProtocol(Context context,String name) {
+        try {
+            InputStream in = context.getAssets().open(name);
+
+            StringBuffer out = new StringBuffer();
+            byte[] b = new byte[4096];
+            for (int n; (n = in.read(b)) != -1; ) {
+                out.append(new String(b, 0, n));
+            }
+            return out.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
 
     public static void lengthFilter(final int max_length,final Context context,
                                     final EditText editText) {
